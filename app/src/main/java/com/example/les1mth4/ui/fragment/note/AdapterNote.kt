@@ -3,7 +3,6 @@ package com.example.les1mth4.ui.fragment.note
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.les1mth4.data.model.NoteModel
 import com.example.les1mth4.databinding.ItemNoteBinding
 
@@ -19,12 +18,12 @@ class AdapterNote(private val listener: SelectedListener) : RecyclerView.Adapter
     }
 
 
-    open inner class ViewHolder(val binding:ItemNoteBinding): ViewHolder(binding.root) {
-        fun bind(NoteModel: NoteModel) {
-            binding.dateNote.text = NoteModel.data
-            binding.descNote.text = NoteModel.description
-            binding.titleNote.text = NoteModel.title
-            binding.imageNote.setImageURI(NoteModel.image)
+    open inner class ViewHolder(val binding: ItemNoteBinding): this.ViewHolder(binding.root) {
+        fun bind(noteModel: NoteModel) {
+            binding.dateNote.text = noteModel.data
+            binding.descNote.text = noteModel.description
+            binding.titleNote.text = noteModel.title
+            binding.imageNote.setImageURI(noteModel.image)
 
         }
 
