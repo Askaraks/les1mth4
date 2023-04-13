@@ -1,52 +1,49 @@
 package com.example.les1mth4.ui.fragment.note
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.les1mth4.R
 import com.example.les1mth4.data.model.NoteModel
-import com.example.les1mth4.databinding.ItemNoteBinding
 
-class AdapterNote(private val listener: SelectedListener) : RecyclerView.Adapter<AdapterNote.ViewHolder>() {
-    private var list = arrayListOf<NoteModel>()
+class NotesAdapter(private val listener: OnNoteClickListener) :
+    RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
 
-    fun setList(list: ArrayList<NoteModel>){
-        this.list = list
+    interface OnNoteClickListener {
+        fun onNoteClick(note: NoteModel)
+    }
+
+    private val notes = mutableListOf<NoteModel>()
+
+    fun setNotesList(notesList: List<NoteModel>) {
+        notes.clear()
+        notes.addAll(notesList)
         notifyDataSetChanged()
     }
-    fun addNote(list:){
-        this.list.add(list)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val itemView = layoutInflater.inflate(R.layout.item_note, parent, false)
+        return NoteViewHolder(itemView)
     }
 
+    override fun getItemCount(): Int = notes.size
 
-    open inner class ViewHolder(val binding: ItemNoteBinding): this.ViewHolder(binding.root) {
-        fun bind(noteModel: NoteModel) {
-            binding.dateNote.text = noteModel.data
-            binding.descNote.text = noteModel.description
-            binding.titleNote.text = noteModel.title
-            binding.imageNote.setImageURI(noteModel.image)
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
+        val note = notes[position]
+        holder.bind(note)
+        holder.itemView.setOnClickListener { listener.onNoteClick(note) }
+    }
 
+    inner class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(note: NoteModel) {
+            val titleTextView: TextView = itemView.findViewById(R.id.title)
+            val dateTextView: TextView = itemView.findViewById(R.id.description)
+
+            titleTextView.text = note.title
+            dateTextView.text = note.date.toString()
         }
-
-    }
-
-    override
-    fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemNoteBinding.inflate(LayoutInflater.from(parent.context),parent,false))
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position])
-        holder.binding.imageNote.setOnLongClickListener{
-            holder.binding.imageNote.alpha=0.5f
-            listener.select(list[position])
-            true
-        }
-    }
-
-    override fun getItemCount(): Int {
-        return list.size
-    }
-    interface SelectedListener{
-        fun select(selectImg: NoteModel)
     }
 }

@@ -9,4 +9,14 @@
     <string name="button">button</string>
     <string name="_10_04_2023">_10_04_2023</string>
     <string name="image">image</string>
+    <string name="Hello_New_Player">Hello new player</string>
+    <string name="Notes">Notes</string>
+    <string name="start">start</string>
+    <string name="next">next</string>
+    <string name="skip">skip</string>
+    <string name="name">Name</string>
+    <string name="sign_out">Sign out</string>
+    <string name="profile">profile</string>
+    <string name="contact">contact</string>
+    <string name="note">note</string>
 </resources>

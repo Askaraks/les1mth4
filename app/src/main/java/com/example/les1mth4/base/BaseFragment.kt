@@ -8,10 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
-
-abstract class BaseFragment<Binding : ViewBinding>(private val inflate: Inflate<Binding>)
-    : Fragment() {
-
+abstract class BaseFragment<Binding: ViewBinding>(private val inflate: Inflate<Binding>): Fragment() {
     private var _binding: Binding? = null
     protected val binding get() = _binding!!
 
@@ -29,10 +26,7 @@ abstract class BaseFragment<Binding : ViewBinding>(private val inflate: Inflate<
         setupUI()
         setupObserver()
     }
+
     abstract fun setupUI()
-    open fun setupObserver(){
-
-    }
-
-
+    open fun setupObserver(){}
 }

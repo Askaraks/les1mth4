@@ -7,5 +7,5 @@ data class NoteModel (
     val image: Uri,
     val title: String,
     val description: String,
-    val data: String
+    val date: String
 )
