@@ -16,12 +16,10 @@ import com.example.les1mth4.databinding.FragmentNoteBinding
 
 class NoteFragment : BaseFragment<FragmentNoteBinding>(FragmentNoteBinding::inflate) {
     private val adapter: NoteAdapter by lazy { NoteAdapter() }
-
     override fun setupUI() {
         binding.recycler.adapter = adapter
 
     }
-
     override fun setupObserver() {
         deleteNote()
         binding.btnFloat.setOnClickListener {
@@ -29,7 +27,6 @@ class NoteFragment : BaseFragment<FragmentNoteBinding>(FragmentNoteBinding::infl
         }
         adapter.setList(App.dataBase.getDao().getAllNote() as ArrayList<NoteModel>)
     }
-
     @SuppressLint("NotifyDataSetChanged")
     private fun deleteNote() {
         val simpleCallback =
@@ -41,7 +38,6 @@ class NoteFragment : BaseFragment<FragmentNoteBinding>(FragmentNoteBinding::infl
                 ): Boolean {
                     return false
                 }
-
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     AlertDialog.Builder(requireContext())
                         .setTitle("Вы уверены удалить это?")
@@ -53,10 +49,8 @@ class NoteFragment : BaseFragment<FragmentNoteBinding>(FragmentNoteBinding::infl
                         }.show()
                 }
             }
-
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(binding.recycler)
-
 
     }
 }
