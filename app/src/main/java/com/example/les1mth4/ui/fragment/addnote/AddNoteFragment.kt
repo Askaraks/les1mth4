@@ -1,5 +1,6 @@
 package com.example.les1mth4.ui.fragment.addnote
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.provider.MediaStore
@@ -23,7 +24,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(FragmentAddNoteBind
     }
 
     val date = getCurrentDateTime()
-    val dateInString = date.toString("yyy`  /MM/dd HH:mm:ss")
+    val dateInString = date.toString("yyy`/MM/dd HH:mm:ss")
 
     fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
         val formatter = SimpleDateFormat(format, locale)
@@ -51,6 +52,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(FragmentAddNoteBind
         }
     }
 
+    @SuppressLint("IntentReset")
     private fun pickImage(){
         binding.imgBoss.setOnClickListener{
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -59,6 +61,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(FragmentAddNoteBind
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         imageUrl = data?.data.toString()
