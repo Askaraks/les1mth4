@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="bg_color1">#D3B55B</color>
     <color name="sign_out_color">#EED7F1</color>
+    <color name="colorAccent">#FF5722</color>
 
 </resources>

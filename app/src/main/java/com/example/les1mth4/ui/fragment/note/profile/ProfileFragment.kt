@@ -1,4 +1,4 @@
-package com.example.les1mth4.ui.profile
+package com.example.les1mth4.ui.fragment.note.profile
 
 
 import com.example.les1mth4.base.BaseFragment

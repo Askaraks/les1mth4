@@ -21,7 +21,7 @@
         android:label="OnBoardFragment" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.les1mth4.ui.profile.ProfileFragment"
+        android:name="com.example.les1mth4.ui.fragment.note.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment

@@ -24,14 +24,14 @@ class MainActivity : AppCompatActivity() {
         controller = navHostFragment.navController
 
         // Set up the bottom navigation view with the nav controller
-        binding.navView.setupWithNavController(controller)
+        binding.bottomNav.setupWithNavController(controller)
 
         // Hide the bottom navigation view when the user is on the onBoardFragment
         controller.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.onBoardFragment) {
-                binding.navView.visibility = View.GONE
+                binding.bottomNav.visibility = View.GONE
             } else {
-                binding.navView.visibility = View.VISIBLE
+                binding.bottomNav.visibility = View.VISIBLE
             }
         }
 
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             controller.navigate(R.id.onBoardFragment)
         }
 
-        binding.navView.setOnNavigationItemSelectedListener { item ->
+        binding.bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.noteFragment -> {
                     controller.navigate(R.id.noteFragment)
