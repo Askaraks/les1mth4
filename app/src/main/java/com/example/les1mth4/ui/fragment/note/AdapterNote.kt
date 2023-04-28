@@ -40,8 +40,8 @@ class NoteAdapter : Adapter<NoteAdapter.NoteViewHolder>() {
 
         fun onBind(model: NoteModel) {
             model.image.let { it?.let { it1 -> binding.imageNote.loadImage(it1) } }
-            binding.titleNote.text = model.title
-            binding.descNote.text = model.description
+            binding.titleNote.setText(model.title)
+            binding.descNote.setText(model.description)
             binding.dateNote.text = model.date
 
 

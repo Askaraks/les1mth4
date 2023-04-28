@@ -39,12 +39,12 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(FragmentAddNoteBind
         pickImage()
         binding.send.setOnClickListener {
             val title = binding.title.text.toString()
-            val des = binding.description.text.toString()
+            val description = binding.description.text.toString()
             App.dataBase.getDao().addNote(
                 NoteModel(
                     image = imageUrl,
                     title = title,
-                    description = des,
+                    description = description,
                     date = dateInString
                 )
             )

@@ -1,60 +1,90 @@
 package com.example.les1mth4.ui.fragment.contact
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.example.les1mth4.R
+import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
+import android.provider.ContactsContract
+import com.example.les1mth4.base.BaseFragment
+import com.example.les1mth4.data.model.ContactModel
+import com.example.les1mth4.databinding.FragmentContactBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ContactFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ContactFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+class ContactFragment(contactFragment: ContactFragment)
+    : BaseFragment<FragmentContactBinding>(FragmentContactBinding::inflate),
+    ContactAdapter.ShareContactListener  {
+    private val adapter by lazy { ContactFragment(this) }
+    override fun setupUI() {
+        binding.rvNote.adapter = adapter
+        getContact()
+
     }
+    @SuppressLint("Range")
+    private fun getContact(){
+        val list = arrayListOf<ContactModel>()
+        val contentResolver = requireActivity().contentResolver
+        val cursor = contentResolver.query(
+            ContactsContract.Contacts.CONTENT_URI,
+            null,
+            null,
+            null,
+        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+        )
+        if (cursor?.count!! > 0){
+            while (cursor.moveToNext())
+                if (Integer.parseInt
+                        (cursor.getString
+                        (cursor.getColumnIndex
+                        (ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contact, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ContactFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ContactFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    val id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))
+                    val name =
+                        cursor.
+                        getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                    val phoneCursor = contentResolver.query(
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                        null,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
+                    arrayOf(id),
+                        null
+                    )
+                    if (phoneCursor?.moveToNext()!!) {
+                        val phoneNumber =
+                            phoneCursor.getString(phoneCursor.getColumnIndex
+                                (ContactsContract.CommonDataKinds.Phone.NUMBER))
+                        phoneCursor.close()
+                        list.add(ContactModel(name = name, phone = phoneNumber,))
+                    }
+                    phoneCursor.close()
                 }
-            }
+            cursor.close()
+            adapter.setList(list)
+        }
+
     }
+
+    override fun shareCall(number: String) {
+        AlertDialog.Builder(requireContext()).setTitle("Перейти по номеру $number ?")
+            .setNegativeButton("Да", null)
+            .setPositiveButton("нет") { _, _ ->
+                val intent = Intent(Intent.ACTION_DIAL,
+                    Uri.fromParts("tel", number, null))
+                requireActivity().startActivity(intent)
+
+            }.show()
+
+    }
+
+    override fun shareWhatsApp(number: String) {
+        AlertDialog.Builder(requireContext()).setTitle("Перейти по номеру $number ?")
+            .setNegativeButton("Да", null)
+            .setPositiveButton("нет") { _, _ ->
+                val url = "https://api.whatsapp.com/send?phone=$number"
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(url)
+                requireActivity().startActivity(intent)
+    }.show()
+
+
 }

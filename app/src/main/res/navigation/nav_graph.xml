@@ -18,7 +18,8 @@
     <fragment
         android:id="@+id/onBoardFragment"
         android:name="com.example.les1mth4.ui.fragment.board.OnBoardFragment"
-        android:label="OnBoardFragment" />
+        android:label="OnBoardFragment"
+        tools:layout="@layout/fragment_on_board_page"/>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.les1mth4.ui.fragment.note.profile.ProfileFragment"

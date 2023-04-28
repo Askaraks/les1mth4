@@ -13,6 +13,8 @@ import com.example.les1mth4.databinding.FragmentOnBoardPageBinding
 class BoardAdapter(private val listener: ClickListener): Adapter<BoardAdapter.BoardViewHolder>() {
 
 
+
+
     private val listImg =
         arrayListOf(R.drawable.ic_onboarding1, R.drawable.ic_onboarding2, R.drawable.ic_onboarding3)
 

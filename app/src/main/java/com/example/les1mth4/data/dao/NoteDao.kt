@@ -8,7 +8,7 @@ import com.example.les1mth4.data.model.NoteModel
 
 @Dao
 interface NoteDao {
-    @Query("SELECT * FROM NoteModel")
+    @Query("SELECT * FROM NoteModel ORDER BY title ASC")
     fun getAllNote(): List<NoteModel>
 
     @Insert()

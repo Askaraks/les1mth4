@@ -12,4 +12,5 @@ data class NoteModel(
     var title: String? = null,
     var description: String? = null,
     var date: String? = null
+
 )
